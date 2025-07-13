@@ -2,6 +2,9 @@ import express from "express";
 import bodyParser from "body-parser";
 import path from "path";
 import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 
 const app = express();
 const port = 3000;
@@ -11,7 +14,7 @@ let  nextID = 1;
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.static("public"));
+app.use(express.static(__dirname + '../public'));
 
 app.get('/', (req, res) => {
     res.render('index', {posts: posts});
@@ -34,7 +37,7 @@ app.post('/create', (req, res) => {
     res.redirect('/'); // redirects the user back to the homepage (/) after the post has been created, allowing them to see the updated list of posts. 
 });
 
-app.get('/edit:id', (req, res) => {
+app.get('/edit/:id', (req, res) => {
     const postID = parseInt(req.params.id);
     const post = posts.find(p=>p.id === postID);
     if (post){
@@ -55,7 +58,7 @@ app.post('/edit/:id', (req, res) => {
     res.redirect('/');
 });
 
-app.post('/delete:id', (req, res) => {
+app.post('/delete/:id', (req, res) => {
     const postID = parseInt(req.params.id);
     posts = posts.filter(p => p.id !== postID);
     res.redirect('/');

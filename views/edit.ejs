@@ -1,0 +1,21 @@
+<%- include('partials/header') %>
+
+<div class="container">
+    <h2>Edit Post</h2>
+    <form method="POST" action="/edit/<%= post.id%>" class="post-form">
+        <div>
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" value="<%post.title%>" required>
+        </div>
+        <div>
+            <label for="content">Content:</label>
+            <textarea id="content" name="content" rows="10" required><<%= post.content %>/textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Post</button>
+        <a href="/" class="btn btn-secondary">Cancel</a>
+    </form>
+    //method="POST" Specifies that the form data will be sent using the HTTP POST method. This is common for submitting data that will modify resources on the server.
+
+</div>
+
+<%- include('partials/footer') %>

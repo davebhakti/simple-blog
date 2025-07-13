@@ -34,7 +34,32 @@ app.post('/create', (req, res) => {
     res.redirect('/'); // redirects the user back to the homepage (/) after the post has been created, allowing them to see the updated list of posts. 
 });
 
+app.get('/edit:id', (req, res) => {
+    const postID = parseInt(req.params.id);
+    const post = posts.find(p=>p.id === postID);
+    if (post){
+        res.render('edit', {post: post});
+    } else {
+        res.redirect('/');
+    }
+});
 
+app.post('/edit/:id', (req, res) => {
+    const postID = parseInt(req.params.id);
+    const {title, content} = req.body;
+    const postIndex = posts.findIndex(p=>p.id === postID);
+    if (postIndex !== -1) {
+        posts[postIndex].title = title;
+        posts[postIndex].content = content;
+    }
+    res.redirect('/');
+});
+
+app.post('/delete:id', (req, res) => {
+    const postID = parseInt(req.params.id);
+    posts = posts.filter(p => p.id !== postID);
+    res.redirect('/');
+});
 
 app.listen(port, () => {
     console.log(`Listening at port ${port}`);

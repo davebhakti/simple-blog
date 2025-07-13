@@ -1,11 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
-</html>
+<%- include('partials/header') %>
+<div class="container">
+    <% if (posts.length === 0) { %>
+        <p class="no-posts"> No Posts yet. <a href="/create">Create your first post!</a></p>
+
+    <%} else { %>
+        <% posts.forEach(post => { %>
+            <article class="post">
+                <h2><%= post.title%></h2>
+                <p class="post-date"><%= post.date %></p>
+                <p class="post-content"><%= post.content %></p>
+                <div class="post-actions">
+                    <a href="/edit/<%= post.id %>" class="btn btn-edit"> Edit </a>
+                    <form method="POST" action="/delete/<%= post.id %>" style="display: inline;"> 
+                        <button type="submit" class="btn btn-click" onclick="return confirm('Are you sure?')">Delete</button>
+                    </form>
+                </div>
+            </article>
+       <% }) %>
+    <% } %>
+</div>
+<%- include('partials/footer') %>
